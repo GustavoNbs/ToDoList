@@ -1,36 +1,29 @@
 function adicionaTarefaNaLista() {
-    // debugger - descomentar para acompanhar o fluxo da pagina
-    // seleciona o elemento de input text que tem o texto da nova tarefa
     const novaTarefa = document.getElementById('input_nova_tarefa').value
     criaNovoItemDaLista(novaTarefa)
 }
 
 function criaNovoItemDaLista(textoDaTarefa) {
-    // recupera a lista de tarefas
     const listaTarefas = document.getElementById('lista_de_tarefas')
-    // guarda o tamanho da lista de tarefas
     let qtdTarefas   = listaTarefas.children.length
 
-    // cria um novo elemento do tipo li (lista)
     const novoItem = document.createElement('li')
 
-    // adiciona o texto digitado no texto da tarefa
     novoItem.innerText = textoDaTarefa
-    // adiciona um ID no novo elemento
     novoItem.id = `tarefa_id_${qtdTarefas++}`
 
     novoItem.appendChild(criaInputCheckBoxTarefa(novoItem.id))
 
+    novoItem.addEventListener('dblclick', function () {
+        editaTexto(this)
+    })
+
     listaTarefas.appendChild(novoItem)
 }
 
-
 function criaInputCheckBoxTarefa(idTarefa) {
-    // cria o elemento de input
     const inputTarefa = document.createElement('input')
-    // seta o elemento para ser do tipo checkbox
     inputTarefa.type = 'checkbox'
-    // seta o onclick do input
     inputTarefa.setAttribute('onclick', `mudaEstadoTarefa('${idTarefa}')`)
     return inputTarefa
 }
@@ -42,6 +35,33 @@ function mudaEstadoTarefa(idTarefa) {
     } else {
         tarefaSelecionada.style = 'text-decoration: line-through;'
     }    
+}
+
+function editaTexto(tarefa) {
+    const textoTarefa = tarefa.innerText;
+    const inputEdicao = document.createElement('input');
+    inputEdicao.type = 'text';
+    inputEdicao.value = textoTarefa;
+
+    inputEdicao.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            finalizaEdicaoTarefa(tarefa, inputEdicao);
+            salvaTarefasNoLocalStorage();
+        }
+    });
+
+    tarefa.innerHTML = '';
+    tarefa.appendChild(inputEdicao);
+    inputEdicao.focus();
+}
+
+function finalizaEdicaoTarefa(tarefa, inputEdicao) {
+    const novoTexto = inputEdicao.value;
+    tarefa.innerHTML = novoTexto;
+    tarefa.addEventListener('dblclick', function() {
+        editaTarefa(this);
+    });
+    tarefa.appendChild(criaInputCheckBoxTarefa(tarefa.id));
 }
 
 
