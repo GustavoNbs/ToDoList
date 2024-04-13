@@ -64,4 +64,18 @@ function finalizaEdicaoTarefa(tarefa, inputEdicao) {
     tarefa.appendChild(criaInputCheckBoxTarefa(tarefa.id));
 }
 
+function escondeTarefasMarcadas() {
+    const tarefasMarcadas = document.querySelectorAll('li[style="text-decoration: line-through;"]');
+    tarefasMarcadas.forEach((tarefa) => {
+        tarefa.style.display = 'none';
+    });
+}
+
+function mostraTarefasMarcadas() {
+    const tarefasMarcadas = document.querySelectorAll('li[style="text-decoration: line-through; display: none;"]');
+    tarefasMarcadas.forEach((tarefa) => {
+        tarefa.style.display = 'block';
+    });
+}
+
 
