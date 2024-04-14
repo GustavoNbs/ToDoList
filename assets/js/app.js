@@ -1,14 +1,23 @@
+window.onload = function() {
+    carregaLista()
+}
+
 function adicionaTarefaNaLista() {
-    const novaTarefa = document.getElementById('input_nova_tarefa').value
-    criaNovoItemDaLista(novaTarefa)
+    const novaTarefa = document.getElementById('input_nova_tarefa').value.trim()
+
+    if (novaTarefa !== '') {
+        criaNovoItemDaLista(novaTarefa)
+        salvaLista()
+    } else {
+        alert('Por favor, insira um texto para a tarefa.')
+    }
 }
 
 function criaNovoItemDaLista(textoDaTarefa) {
     const listaTarefas = document.getElementById('lista_de_tarefas')
-    let qtdTarefas   = listaTarefas.children.length
 
     const novoItem = document.createElement('li')
-    // Cria ID baseado na data e hora
+    
     const idUnico = Date.now()
 
     novoItem.innerText = textoDaTarefa
@@ -37,76 +46,80 @@ function mudaEstadoTarefa(idTarefa) {
     } else {
         tarefaSelecionada.style = 'text-decoration: line-through;'
     }    
+    salvaLista()
 }
 
 function criaBotaoEditarTarefa(idTarefa) {
     const botaoEditar = document.createElement('button')
     botaoEditar.innerText = 'Editar'
-    botaoEditar.addEventListener('click', function() {
-        editaTexto(this.parentNode)
-
-    })
+    botaoEditar.setAttribute('onclick', `editarTarefa('${idTarefa}')`)
     return botaoEditar
 }
 
 function criaBotaoApagarTarefa(idTarefa) {
     const botaoApagar = document.createElement('button')
     botaoApagar.innerText = 'Apagar'
-    botaoApagar.addEventListener('click', function () {
-        const tarefa = document.getElementById(idTarefa)
-        tarefa.parentNode.removeChild(tarefa)
-    })
+    botaoApagar.setAttribute('onclick', `apagarTarefa('${idTarefa}')`)
     return botaoApagar
 }
 
-function editaTexto(tarefa) {
-    // Remove os botões da tarefa
-    const botoesTarefa = Array.from(tarefa.querySelectorAll('button'))
-    botoesTarefa.forEach(botao => {
-        botao.remove()
-    })
-
-    const textoTarefa = tarefa.innerText
+function editarTarefa(idTarefa) {
+    const textoAtual = document.getElementById(idTarefa).firstChild
     const inputEdicao = document.createElement('input')
     inputEdicao.type = 'text'
-    inputEdicao.value = textoTarefa
-
-    inputEdicao.addEventListener('keyup', function(Enter) {
-        if (Enter.key === 'Enter') {
-            finalizaEdicaoTarefa(tarefa, inputEdicao)
+    inputEdicao.value = textoAtual.textContent
+    inputEdicao.addEventListener('keyup', function(enter) {
+        if (enter.key === 'Enter') {
+            textoAtual.textContent = this.value
+            this.parentNode.replaceChild(textoAtual, this)
+            salvaLista()
         }
     })
-
-    // Limpa o conteúdo da tarefa
-    tarefa.innerHTML = ''
-    tarefa.appendChild(inputEdicao)
-
-    inputEdicao.focus()
+    textoAtual.parentNode.replaceChild(inputEdicao, textoAtual)
 }
 
-
-function finalizaEdicaoTarefa(tarefa, inputEdicao) {
-    const novoTexto = inputEdicao.value
-    tarefa.innerHTML = novoTexto
-
-    // Adiciona os botoes Devolta
-    tarefa.appendChild(criaInputCheckBoxTarefa(tarefa.id))
-    tarefa.appendChild(criaBotaoEditarTarefa(tarefa.id))
-    tarefa.appendChild(criaBotaoApagarTarefa(tarefa.id))
+function apagarTarefa(idTarefa) {
+    const confirmacao = confirm('Tem certeza que deseja apagar esta tarefa?')
+    if (confirmacao) {
+        const apagaTexto = document.getElementById(idTarefa).parentNode
+        apagaTexto.removeChild(document.getElementById(idTarefa))
+        salvaLista()
+    }
 }
 
-function escondeTarefasMarcadas() {
-    const tarefasMarcadas = document.querySelectorAll('li[style="text-decoration: line-through;"]')
-    tarefasMarcadas.forEach((tarefa) => {
+function ocultarTarefasMarcadas() {
+    const tarefasMarcadas = document.querySelectorAll('li[style*="line-through"]')
+    tarefasMarcadas.forEach(function(tarefa) {
         tarefa.style.display = 'none'
     })
+    salvaLista()
 }
 
-function mostraTarefasMarcadas() {
-    const tarefasMarcadas = document.querySelectorAll('li[style="text-decoration: line-through; display: none;"]')
-    tarefasMarcadas.forEach((tarefa) => {
-        tarefa.style.display = 'block'
+function mostrarTarefasMarcadas() {
+    const tarefasMarcadas = document.querySelectorAll('li[style*="line-through"]')
+    tarefasMarcadas.forEach(function(tarefa) {
+        tarefa.style.display = 'list-item'
     })
+    salvaLista()
 }
 
+function apagarLista() {
+    const confirmacao = confirm('Tem certeza que deseja apagar toda a lista?')
+    if (confirmacao) {
+        const listaTarefas = document.getElementById('lista_de_tarefas')
+        listaTarefas.innerHTML = ''
+        salvaLista()
+    }
+}
 
+function salvaLista() {
+    const listaTarefas = document.getElementById('lista_de_tarefas').innerHTML
+    localStorage.setItem('tarefas', listaTarefas)
+}
+
+function carregaLista() {
+    const listaSalva = localStorage.getItem('tarefas')
+    if (listaSalva) {
+        document.getElementById('lista_de_tarefas').innerHTML = listaSalva
+    }
+}
