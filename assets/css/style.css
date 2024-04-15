@@ -1,0 +1,135 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+}
+
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    width: 55vw;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    transition: height 0.3s;
+}
+
+.Titulo {
+    align-self: center;
+}
+
+.DivLista {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.InputTarefa {
+    width: calc(100% - 0px);
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+.InputTarefa:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
+
+.BtnAdicionar {
+    width: calc(25% - 5px);
+    padding: 10px;
+    margin-top: 10px 15px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.BtnLimpar {
+    width: calc(25% - 0px);
+    padding: 10px 15px;
+    margin-top: 10px;
+    background-color: #ff0000;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+.BtnMostrar,
+.BtnOcultar {
+    width: calc(25% - 4px);
+    padding: 10px 15px;
+    margin-top: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.BtnAdicionar:hover {
+    background-color: #45a049;
+}
+
+.BtnLimpar:hover {
+    background-color: #cc0000;
+}
+
+.BtnMostrar:hover,
+.BtnOcultar:hover {
+    background-color: #0056b3;
+}
+
+.ListaTarefas {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+}
+
+.ItemTarefa {
+    width: calc(100% - 20px);
+    background-color: #f0f0f0;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.BotaoEditar,
+.BotaoApagar {
+    background-color: transparent;
+    border: none;
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    background-position: center;
+    cursor: pointer; 
+    background-size: 80%;
+}
+
+.BotaoEditar {
+    margin-left: 1%;
+    margin-right: 0px;
+    background-image: url(icons/edit.png);
+}
+
+.BotaoApagar {
+    background-image: url(icons/delete.png);
+}

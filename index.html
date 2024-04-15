@@ -7,21 +7,22 @@
     <title>Lista de Tarefas</title>
 </head>
 <body>
-    <h2>Lista de Tarefas - Programação FrontEnd</h2>
+    <div class="container">
+        <h1 class="Titulo">Lista de Tarefas</h1>
 
-    <div id="div_area_nova_tarefa" class="DivLista">
-        <label for="input_nova_tarefa">Digite sua nova tarefa:</label>
-        <input type="text" id="input_nova_tarefa">
-        <button onclick="adicionaTarefaNaLista()">+</button>
-        <button onclick="mostrarTarefasMarcadas()">=</button>
-        <button onclick="ocultarTarefasMarcadas()">-</button>
-        <button onclick="apagarLista()">Limpar</button>
+        <div id="div_area_nova_tarefa" class="DivLista">
+            <label for="input_nova_tarefa">Digite sua nova tarefa:</label>
+            <input type="text" id="input_nova_tarefa" class="InputTarefa" placeholder="Adicionar nova tarefa...">
+            <button class="BtnAdicionar" onclick="adicionaTarefaNaLista()">Adicionar a Lista</button>
+            <button class="BtnMostrar" onclick="mostrarTarefasMarcadas()">Mostrar Concluidas</button>
+            <button class="BtnOcultar" onclick="ocultarTarefasMarcadas()">Ocultar Concluidas</button>
+            <button class="BtnLimpar" onclick="apagarLista()">Limpar Lista</button>
+        </div>
+        <div id="div_lista_de_tarefas" class="DivLista">
+            <ul id="lista_de_tarefas" class="ListaTarefas"> 
+            </ul>
+        </div>    
     </div>
-    <div id="div_lista_de_tarefas">
-        <ul id="lista_de_tarefas"> 
-        </ul>
-    </div>    
-
 
     <script src="assets/js/app.js"></script>
 </body>

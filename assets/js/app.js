@@ -7,6 +7,8 @@ function adicionaTarefaNaLista() {
 
     if (novaTarefa !== '') {
         criaNovoItemDaLista(novaTarefa)
+        document.getElementById("input_nova_tarefa").value = ""
+        ajustarAlturaContainer()
         salvaLista()
     } else {
         alert('Por favor, insira um texto para a tarefa.')
@@ -22,6 +24,7 @@ function criaNovoItemDaLista(textoDaTarefa) {
 
     novoItem.innerText = textoDaTarefa
     novoItem.id = `tarefa_id_${idUnico}`
+    novoItem.classList.add("ItemTarefa")
 
     novoItem.appendChild(criaInputCheckBoxTarefa(novoItem.id))
 
@@ -51,14 +54,16 @@ function mudaEstadoTarefa(idTarefa) {
 
 function criaBotaoEditarTarefa(idTarefa) {
     const botaoEditar = document.createElement('button')
-    botaoEditar.innerText = 'Editar'
+    //botaoEditar.innerText = 'Editar'
+    botaoEditar.classList.add("BotaoEditar")
     botaoEditar.setAttribute('onclick', `editarTarefa('${idTarefa}')`)
     return botaoEditar
 }
 
 function criaBotaoApagarTarefa(idTarefa) {
     const botaoApagar = document.createElement('button')
-    botaoApagar.innerText = 'Apagar'
+    // botaoApagar.innerText = 'Apagar'
+    botaoApagar.classList.add("BotaoApagar")
     botaoApagar.setAttribute('onclick', `apagarTarefa('${idTarefa}')`)
     return botaoApagar
 }
@@ -83,8 +88,9 @@ function apagarTarefa(idTarefa) {
     if (confirmacao) {
         const apagaTexto = document.getElementById(idTarefa).parentNode
         apagaTexto.removeChild(document.getElementById(idTarefa))
-        salvaLista()
+        ajustarAlturaContainer()
     }
+    salvaLista()
 }
 
 function ocultarTarefasMarcadas() {
@@ -92,6 +98,7 @@ function ocultarTarefasMarcadas() {
     tarefasMarcadas.forEach(function(tarefa) {
         tarefa.style.display = 'none'
     })
+    ajustarAlturaContainer()
     salvaLista()
 }
 
@@ -100,6 +107,7 @@ function mostrarTarefasMarcadas() {
     tarefasMarcadas.forEach(function(tarefa) {
         tarefa.style.display = 'list-item'
     })
+    ajustarAlturaContainer()
     salvaLista()
 }
 
@@ -108,8 +116,17 @@ function apagarLista() {
     if (confirmacao) {
         const listaTarefas = document.getElementById('lista_de_tarefas')
         listaTarefas.innerHTML = ''
-        salvaLista()
+        ajustarAlturaContainer()
+        localStorage.removeItem('tarefas')
     }
+}
+
+function ajustarAlturaContainer() {
+    var listaDeTarefas = document.getElementById("lista_de_tarefas")
+    var alturaLista = listaDeTarefas.clientHeight
+    var alturaContainer = alturaLista + 200
+    var container = document.querySelector(".container")
+    container.style.height = alturaContainer + "px"
 }
 
 function salvaLista() {
@@ -121,5 +138,6 @@ function carregaLista() {
     const listaSalva = localStorage.getItem('tarefas')
     if (listaSalva) {
         document.getElementById('lista_de_tarefas').innerHTML = listaSalva
+        ajustarAlturaContainer()
     }
 }
