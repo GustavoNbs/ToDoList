@@ -122,10 +122,10 @@ function apagarLista() {
 }
 
 function ajustarAlturaContainer() {
-    var listaDeTarefas = document.getElementById("lista_de_tarefas")
-    var alturaLista = listaDeTarefas.clientHeight
-    var alturaContainer = alturaLista + 200
-    var container = document.querySelector(".container")
+    let listaDeTarefas = document.getElementById("lista_de_tarefas")
+    let alturaLista = listaDeTarefas.clientHeight
+    let alturaContainer = alturaLista + 200
+    let container = document.querySelector(".container")
     container.style.height = alturaContainer + "px"
 }
 
